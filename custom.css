@@ -1,0 +1,53 @@
+.section .reveal .state-background {
+    background: white;
+}
+.section .reveal h1{
+  background-color: white;
+  color: black;
+  font-weight:bold;
+  padding-top:0.5em;
+  width:90%;
+  border:0.2em solid white;   
+}
+
+.section .reveal p {
+  margin-top: 2em; 
+  color: white;
+  width:85%;
+  font-size: 1.3em;
+  border:1em solid black; 
+  background-color: black;
+}
+    
+.reveal p, table {
+    margin-top: 2em; 
+    font-size: 0.8em; 
+}
+    
+.reveal .present {
+    background: white;
+}
+
+.reveal h3{
+   background-color: black;
+   color: white;
+   padding-top:0.75em;
+   width:95%;
+   border:0.2em solid black;
+   top: 0%;
+   left: 0%;
+}
+
+
+.reveal pre, blockquote {
+   padding-left: 0mm;
+   margin-left: 0mm;
+   
+   padding-right: 17mm;
+   margin-right: 10mm;
+   
+   font-size: 0.35em; 
+   background-color: #F8F8F8;
+   
+}
+
