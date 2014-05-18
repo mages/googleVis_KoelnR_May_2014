@@ -1,12 +1,11 @@
-googleVis overview and recent developments
+googleVis overview & developments
 ========================================================
 author: Markus Gesmann
 date: KoelnR, 23 May 2014
 font-family: 'Helvetica'
 transition: linear
 css: custom.css
-width: 1440
-height: 900
+
 
 Agenda
 ========================================================
@@ -14,24 +13,24 @@ incremental: false
 - A brief introduction to googleVis
 - Recent developments
 - How I created this presentation with RStudio
-- Summary and outlook
+- Summary 
 
 
 
 
 
-What is googleVis?
+Motivation
 ========================================================
 
 - Inspired by [Hans Rosling's talk](http://www.youtube.com/embed/hVimVzgtD6w) 
-  we wanted to use interactive data visualisation tools to foster the 
-  dialogue between data analysts and others
+  and [Gapminder](http://www.gapminder.org)
+  we also wanted interactive data visualisation tools 
 - The software behind Hans' talk was bought by Google and 
   integrated as motion charts into their Visualisation API
-- Hence, we created [googleVis](http://gihub.com/mages/googleVis) 
+- Hence, we had to create [googleVis](http://gihub.com/mages/googleVis), 
   an R package and interface to the 
   [Google Chart Tools API](https://developers.google.com/chart/)
-  - First version published in 2010
+  - Development started in 2010
   
 Introduction to Google Chart Tools
 ========================================================
@@ -46,7 +45,6 @@ Introduction to Google Chart Tools
 
 Structure of Google Charts
 ========================================================
-
 The chart code has five generic parts:
 
 1. References to Google's AJAX and Visualisation API
@@ -57,22 +55,13 @@ The chart code has five generic parts:
 
 Overview of googleVis
 ========================================================
-
-* [googleVis](http://github.com/mages/googleVis) is a package for [R](http://www.r-poject.org/) and provides an interface between R and the [Google Chart Tools](https://developers.google.com/chart/)
-
 * The functions of the package allow users to visualize data with the Google Chart Tools without uploading their data to Google
-
 * The output of googleVis functions is html code that contains the data and references to JavaScript functions hosted by Google
-
 * To view the output a browser with an internet connection is required, the actual chart is rendered in the browser; some charts require Flash
-
-* See also: **Using the Google Visualisation API with R**, 
-  [The R Journal, 3(2):40-44, December 2011](http://journal.r-project.org/archive/2011-2/RJournal_2011-2_Gesmann+de~Castillo.pdf) and googleVis [package vignette](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf)
 
 
 googleVis version 0.5.2 provides interfaces to 
 ========================================================
-
 * Flash based
   * Motion Charts, Annotated Time Lines, Geo Maps
 * HMTL5/SVG based
@@ -81,29 +70,26 @@ googleVis version 0.5.2 provides interfaces to
   * Line-, Bar-, Column-, Area- and Combo Charts,
   * Scatter-, Bubble-, Candlestick-, Pie- and Org Charts,
   * Annotation-, Calendar-, Histogram and Sankey Charts
-* Support for roles and trendlines
-* Support for [Shiny](http://shiny.rstudio.com/) via [renderGvis](http://lamages.blogspot.co.uk/2013/02/first-steps-of-using-googlevis-on-shiny.html)
+* Support for roles, trendlines and [Shiny](http://shiny.rstudio.com/) via [renderGvis](http://lamages.blogspot.co.uk/2013/02/first-steps-of-using-googlevis-on-shiny.html)
 
-Run ```demo(googleVis)``` to see examples of all charts and read the [vignette](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf) for more details.
 
 Motion chart example
 ========================================================
 
 
 ```r
-plot(gvisMotionChart(Fruits, "Fruit", "Year",
-                     options=list(width=600, height=400)))
+plot(gvisMotionChart(Fruits, "Fruit", "Year"))
 ```
 
 <!-- MotionChart generated in R 3.1.0 by googleVis 0.5.2 package -->
-<!-- Sun May 18 13:50:08 2014 -->
+<!-- Sun May 18 20:30:41 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataMotionChartID64416b6c02de () {
+function gvisDataMotionChartID6c9a32fb9202 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -201,14 +187,14 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartMotionChartID64416b6c02de() {
-var data = gvisDataMotionChartID64416b6c02de();
+function drawChartMotionChartID6c9a32fb9202() {
+var data = gvisDataMotionChartID6c9a32fb9202();
 var options = {};
 options["width"] =    600;
-options["height"] =    400;
+options["height"] =    500;
 
     var chart = new google.visualization.MotionChart(
-    document.getElementById('MotionChartID64416b6c02de')
+    document.getElementById('MotionChartID6c9a32fb9202')
     );
     chart.draw(data,options);
     
@@ -232,9 +218,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartMotionChartID64416b6c02de);
+callbacks.push(drawChartMotionChartID6c9a32fb9202);
 })();
-function displayChartMotionChartID64416b6c02de() {
+function displayChartMotionChartID6c9a32fb9202() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -258,12 +244,12 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID64416b6c02de"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID6c9a32fb9202"></script>
  
 <!-- divChart -->
   
-<div id="MotionChartID64416b6c02de"
-  style="width: 600px; height: 400px;">
+<div id="MotionChartID6c9a32fb9202"
+  style="width: 600px; height: 500px;">
 </div>
 
 
@@ -274,28 +260,31 @@ The googleVis concept
 * Charts: *'gvis' + ChartType*
 * For a motion chart we have
 
-
 ```r
-M <- gvisMotionChart(data, idvar='id', timevar='date', 
-                     options=list(), chartid)
+M <- gvisMotionChart(data, 
+                     idvar='id', 
+                     timevar='date', 
+                     options=list(), 
+                     chartid)
 ```
-
-
-* Output of googleVis is a list of list
 
 * Display the chart by simply plotting the output: ```plot(M)```
 * Plot will generate a temporary html-file and open it in a new browser window 
-* Specific parts can be extracted, e.g. 
-  * the chart: ```M$html$chart``` or 
-  * data: ```M$html$chart["jsData"]```
 
 
 gvis-Chart structure
 ========================================================
-
-List structure:
+left: 30%
 
 <img height=350 src="https://dl.dropbox.com/u/7586336/googleVisExamples/gvisObject.png" alt="gvis object structure" />
+
+***
+List structure:
+
+* Output of googleVis is a list of list
+* Specific parts can be extracted, e.g. 
+  * the chart: ```M$html$chart``` or 
+  * data: ```M$html$chart["jsData"]```
 
 
 Example: Scatter chart
@@ -304,18 +293,18 @@ Example: Scatter chart
 
 ```r
 df <- data.frame(year=1:11, x=1:11)
-plot(gvisScatterChart(df,options=list(width=600, height=400)))
+plot(gvisScatterChart(df, options=list(width=600, height=400)))
 ```
 
 <!-- ScatterChart generated in R 3.1.0 by googleVis 0.5.2 package -->
-<!-- Sun May 18 13:50:08 2014 -->
+<!-- Sun May 18 20:30:41 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataScatterChartID64413073eb () {
+function gvisDataScatterChartID6c9a222edb74 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -371,15 +360,15 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartScatterChartID64413073eb() {
-var data = gvisDataScatterChartID64413073eb();
+function drawChartScatterChartID6c9a222edb74() {
+var data = gvisDataScatterChartID6c9a222edb74();
 var options = {};
 options["allowHtml"] = true;
 options["width"] =    600;
 options["height"] =    400;
 
     var chart = new google.visualization.ScatterChart(
-    document.getElementById('ScatterChartID64413073eb')
+    document.getElementById('ScatterChartID6c9a222edb74')
     );
     chart.draw(data,options);
     
@@ -403,9 +392,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartScatterChartID64413073eb);
+callbacks.push(drawChartScatterChartID6c9a222edb74);
 })();
-function displayChartScatterChartID64413073eb() {
+function displayChartScatterChartID6c9a222edb74() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -429,17 +418,17 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID64413073eb"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID6c9a222edb74"></script>
  
 <!-- divChart -->
   
-<div id="ScatterChartID64413073eb"
+<div id="ScatterChartID6c9a222edb74"
   style="width: 600px; height: 400px;">
 </div>
 
 
 
-Example: Line chart with options set
+Example: Line chart with options
 ========================================================
 
 
@@ -449,7 +438,8 @@ Line <- gvisLineChart(df, xvar="label", yvar=c("val1","val2"),
         options=list(title="Hello World", legend="bottom",
                 titleTextStyle="{color:'red', fontSize:18}",                         
                 vAxis="{gridlines:{color:'red', count:3}}",
-                hAxis="{title:'My Label', titleTextStyle:{color:'blue'}}",
+                hAxis="{title:'My Label', 
+                        titleTextStyle:{color:'blue'}}",
                 series="[{color:'green', targetAxisIndex: 0}, 
                          {color: 'blue',targetAxisIndex:1}]",
                 vAxes="[{title:'Value 1 (%)', format:'##,######%'}, 
@@ -470,14 +460,14 @@ plot(Line)
 ```
 
 <!-- LineChart generated in R 3.1.0 by googleVis 0.5.2 package -->
-<!-- Sun May 18 13:50:08 2014 -->
+<!-- Sun May 18 20:30:41 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataLineChartID64416d0a4965 () {
+function gvisDataLineChartID6c9a3249ae34 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -505,15 +495,16 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartLineChartID64416d0a4965() {
-var data = gvisDataLineChartID64416d0a4965();
+function drawChartLineChartID6c9a3249ae34() {
+var data = gvisDataLineChartID6c9a3249ae34();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Hello World";
 options["legend"] = "bottom";
 options["titleTextStyle"] = {color:'red', fontSize:18};
 options["vAxis"] = {gridlines:{color:'red', count:3}};
-options["hAxis"] = {title:'My Label', titleTextStyle:{color:'blue'}};
+options["hAxis"] = {title:'My Label', 
+                        titleTextStyle:{color:'blue'}};
 options["series"] = [{color:'green', targetAxisIndex: 0}, 
                          {color: 'blue',targetAxisIndex:1}];
 options["vAxes"] = [{title:'Value 1 (%)', format:'##,######%'}, 
@@ -523,7 +514,7 @@ options["width"] =    500;
 options["height"] =    300;
 
     var chart = new google.visualization.LineChart(
-    document.getElementById('LineChartID64416d0a4965')
+    document.getElementById('LineChartID6c9a3249ae34')
     );
     chart.draw(data,options);
     
@@ -547,9 +538,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartLineChartID64416d0a4965);
+callbacks.push(drawChartLineChartID6c9a3249ae34);
 })();
-function displayChartLineChartID64416d0a4965() {
+function displayChartLineChartID6c9a3249ae34() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -573,11 +564,11 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID64416d0a4965"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID6c9a3249ae34"></script>
  
 <!-- divChart -->
   
-<div id="LineChartID64416d0a4965"
+<div id="LineChartID6c9a3249ae34"
   style="width: 500px; height: 300px;">
 </div>
 
@@ -599,9 +590,10 @@ levels(x$Ranking) <- nlevels(x$Rating):1
 x$Ranking <- as.character(x$Ranking)
 x$Rating <- paste(x$Country, x$Rating, sep=": ")
 G <- gvisGeoChart(x, "Country", "Ranking", hovervar="Rating",
-                options=list(gvis.editor="S&P",
-                             projection="kavrayskiy-vii",
-                             colorAxis="{colors:['#91BFDB', '#FC8D59']}"))
+                options=
+                  list(gvis.editor="S&P",
+                       projection="kavrayskiy-vii",
+                       colorAxis="{colors:['#91BFDB', '#FC8D59']}"))
 ```
 
 
@@ -615,14 +607,14 @@ plot(G)
 ```
 
 <!-- GeoChart generated in R 3.1.0 by googleVis 0.5.2 package -->
-<!-- Sun May 18 13:50:10 2014 -->
+<!-- Sun May 18 20:30:43 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataGeoChartID64413e58bdd0 () {
+function gvisDataGeoChartID6c9a34bf1b7 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -1205,33 +1197,33 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartGeoChartID64413e58bdd0() {
-var data = gvisDataGeoChartID64413e58bdd0();
+function drawChartGeoChartID6c9a34bf1b7() {
+var data = gvisDataGeoChartID6c9a34bf1b7();
 var options = {};
 options["width"] =    556;
 options["height"] =    347;
 options["projection"] = "kavrayskiy-vii";
 options["colorAxis"] = {colors:['#91BFDB', '#FC8D59']};
 
-    chartGeoChartID64413e58bdd0 = new google.visualization.ChartWrapper({
+    chartGeoChartID6c9a34bf1b7 = new google.visualization.ChartWrapper({
     dataTable: data,       
     chartType: 'GeoChart',
-    containerId: 'GeoChartID64413e58bdd0',
+    containerId: 'GeoChartID6c9a34bf1b7',
     options: options
     });
-    chartGeoChartID64413e58bdd0.draw();
+    chartGeoChartID6c9a34bf1b7.draw();
     
 
 }
 
-  function openEditorGeoChartID64413e58bdd0() {
+  function openEditorGeoChartID6c9a34bf1b7() {
   var editor = new google.visualization.ChartEditor();
   google.visualization.events.addListener(editor, 'ok',
   function() { 
-  chartGeoChartID64413e58bdd0 = editor.getChartWrapper();  
-  chartGeoChartID64413e58bdd0.draw(document.getElementById('GeoChartID64413e58bdd0')); 
+  chartGeoChartID6c9a34bf1b7 = editor.getChartWrapper();  
+  chartGeoChartID6c9a34bf1b7.draw(document.getElementById('GeoChartID6c9a34bf1b7')); 
   }); 
-  editor.openDialog(chartGeoChartID64413e58bdd0);
+  editor.openDialog(chartGeoChartID6c9a34bf1b7);
   }
     
  
@@ -1251,9 +1243,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartGeoChartID64413e58bdd0);
+callbacks.push(drawChartGeoChartID6c9a34bf1b7);
 })();
-function displayChartGeoChartID64413e58bdd0() {
+function displayChartGeoChartID6c9a34bf1b7() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -1277,11 +1269,11 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID64413e58bdd0"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID6c9a34bf1b7"></script>
  
 <!-- divChart -->
-<input type='button' onclick='openEditorGeoChartID64413e58bdd0()' value='S&P'/>  
-<div id="GeoChartID64413e58bdd0"
+<input type='button' onclick='openEditorGeoChartID6c9a34bf1b7()' value='S&P'/>  
+<div id="GeoChartID6c9a34bf1b7"
   style="width: 556px; height: 347px;">
 </div>
 
@@ -1289,21 +1281,16 @@ callbacks.shift()();
 
 New developments since googleVis 0.5.0
 ========================================================
-
 * New functions gvisSankey, gvisAnnotationChart, gvisHistogram,
-  gvisCalendar and gvisTimeline 
-  
+  gvisCalendar and gvisTimeline   
 * New demos and vigenttes for trendlines and roles
-
 * New [vignettes](http://cran.r-project.org/web/packages/googleVis/index.html) 
   written in R Markdown
-
 * Dynamic help pages with [roxygen2](http://cran.r-project.org/web/packages/roxygen2/index.html)
-
 * Moved code development from [Google Code](https://code.google.com/p/google-motion-charts-with-r/) with SVN to [GitHub](https://github.com/mages/googleVis) with git
 
 
-Add additional columns to define roles - NEW
+New: Add additional columns to define roles
 ========================================================
 
 
@@ -1317,14 +1304,14 @@ plot(gvisScatterChart(df,options=list(lineWidth=2, width=600, height=400)))
 ```
 
 <!-- ScatterChart generated in R 3.1.0 by googleVis 0.5.2 package -->
-<!-- Sun May 18 13:50:10 2014 -->
+<!-- Sun May 18 20:30:43 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataScatterChartID64413415c2aa () {
+function gvisDataScatterChartID6c9a6eea2711 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -1440,8 +1427,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartScatterChartID64413415c2aa() {
-var data = gvisDataScatterChartID64413415c2aa();
+function drawChartScatterChartID6c9a6eea2711() {
+var data = gvisDataScatterChartID6c9a6eea2711();
 var options = {};
 options["allowHtml"] = true;
 options["lineWidth"] =      2;
@@ -1449,7 +1436,7 @@ options["width"] =    600;
 options["height"] =    400;
 
     var chart = new google.visualization.ScatterChart(
-    document.getElementById('ScatterChartID64413415c2aa')
+    document.getElementById('ScatterChartID6c9a6eea2711')
     );
     chart.draw(data,options);
     
@@ -1473,9 +1460,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartScatterChartID64413415c2aa);
+callbacks.push(drawChartScatterChartID6c9a6eea2711);
 })();
-function displayChartScatterChartID64413415c2aa() {
+function displayChartScatterChartID6c9a6eea2711() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -1499,17 +1486,17 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID64413415c2aa"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID6c9a6eea2711"></script>
  
 <!-- divChart -->
   
-<div id="ScatterChartID64413415c2aa"
+<div id="ScatterChartID6c9a6eea2711"
   style="width: 600px; height: 400px;">
 </div>
 
 
 
-Google Map - NEW individual markers
+New: Individual markers for Maps
 ========================================================
 
 
@@ -1526,7 +1513,7 @@ plot(gvisMap(df, "Adress", "Tip",
 <iframe src="https://dl.dropboxusercontent.com/u/7586336/blogger/MapTokyoRUserGroup.html" width=900 height=400 frameborder=0>Loading</iframe>
 
 
-Timeline - NEW
+New: Timeline
 ========================================================
 
 
@@ -1540,18 +1527,18 @@ dat <- data.frame(Room=c("Room 1","Room 2","Room 3"),
                                    "2014-04-17 16:00",
                                    "2014-04-17 15:30")))
 plot(gvisTimeline(data=dat, rowlabel="Room", barlabel="Language",
-                  start="start", end="end", options=list(width=1000, height=250)))
+                  start="start", end="end", options=list(width=800, height=250)))
 ```
 
 <!-- Timeline generated in R 3.1.0 by googleVis 0.5.2 package -->
-<!-- Sun May 18 13:50:10 2014 -->
+<!-- Sun May 18 20:30:43 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataTimelineID64419f419d () {
+function gvisDataTimelineID6c9a4eab05fa () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -1583,14 +1570,14 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartTimelineID64419f419d() {
-var data = gvisDataTimelineID64419f419d();
+function drawChartTimelineID6c9a4eab05fa() {
+var data = gvisDataTimelineID6c9a4eab05fa();
 var options = {};
-options["width"] =   1000;
+options["width"] =    800;
 options["height"] =    250;
 
     var chart = new google.visualization.Timeline(
-    document.getElementById('TimelineID64419f419d')
+    document.getElementById('TimelineID6c9a4eab05fa')
     );
     chart.draw(data,options);
     
@@ -1614,9 +1601,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartTimelineID64419f419d);
+callbacks.push(drawChartTimelineID6c9a4eab05fa);
 })();
-function displayChartTimelineID64419f419d() {
+function displayChartTimelineID6c9a4eab05fa() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -1640,17 +1627,17 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartTimelineID64419f419d"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartTimelineID6c9a4eab05fa"></script>
  
 <!-- divChart -->
   
-<div id="TimelineID64419f419d"
-  style="width: 1000px; height: 250px;">
+<div id="TimelineID6c9a4eab05fa"
+  style="width: 800px; height: 250px;">
 </div>
 
 
 
-Sankey chart - NEW
+New: Sankey chart
 ========================================================
 
 
@@ -1663,14 +1650,14 @@ plot(gvisSankey(dat, from="From", to="To", weight="Weight",
 ```
 
 <!-- Sankey generated in R 3.1.0 by googleVis 0.5.2 package -->
-<!-- Sun May 18 13:50:11 2014 -->
+<!-- Sun May 18 20:30:43 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataSankeyID6441578caabc () {
+function gvisDataSankeyID6c9a3e15886f () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -1713,14 +1700,14 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartSankeyID6441578caabc() {
-var data = gvisDataSankeyID6441578caabc();
+function drawChartSankeyID6c9a3e15886f() {
+var data = gvisDataSankeyID6c9a3e15886f();
 var options = {};
 options["width"] =    400;
 options["height"] =    250;
 
     var chart = new google.visualization.Sankey(
-    document.getElementById('SankeyID6441578caabc')
+    document.getElementById('SankeyID6c9a3e15886f')
     );
     chart.draw(data,options);
     
@@ -1744,9 +1731,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartSankeyID6441578caabc);
+callbacks.push(drawChartSankeyID6c9a3e15886f);
 })();
-function displayChartSankeyID6441578caabc() {
+function displayChartSankeyID6c9a3e15886f() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -1770,18 +1757,18 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID6441578caabc"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartSankeyID6c9a3e15886f"></script>
  
 <!-- divChart -->
   
-<div id="SankeyID6441578caabc"
+<div id="SankeyID6c9a3e15886f"
   style="width: 400px; height: 250px;">
 </div>
 
 
 
 
-Calendar chart - NEW
+New: Calendar chart
 ========================================================
 
 
@@ -1794,7 +1781,7 @@ plot(gvisCalendar(Cairo, datevar="Date",
 <iframe src="https://dl.dropboxusercontent.com/u/7586336/blogger/CalendarCario.html" width=800 height=600 frameborder=0>Loading</iframe>
 
 
-Annotation Chart - NEW
+New: Annotation Chart
 ========================================================
 
 
@@ -1803,7 +1790,7 @@ xtable(tail(Stock, 3))
 ```
 
 <!-- html table generated in R 3.1.0 by xtable 1.7-3 package -->
-<!-- Sun May 18 13:50:11 2014 -->
+<!-- Sun May 18 20:30:43 2014 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> Date </TH> <TH> Device </TH> <TH> Value </TH> <TH> Title </TH> <TH> Annotation </TH>  </TR>
   <TR> <TD align="right"> 10 </TD> <TD align="right"> 13882.00 </TD> <TD> Pens </TD> <TD align="right"> 14334.00 </TD> <TD> Out of stock </TD> <TD> Ran out of stock of pens at 4pm </TD> </TR>
@@ -1827,7 +1814,7 @@ A <- gvisAnnotationChart(
 
 
 
-Annotation Chart - NEW
+New: Annotation Chart
 ========================================================
 
 
@@ -1842,11 +1829,13 @@ Further reading and examples
 ========================================================
 
 * [Demonstartion of googleVis](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis_examples.html)
+  * Run ```demo(googleVis)``` to see examples of all charts 
 * [Using the Google Chart Tools with R](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf)
 * [Using Roles via googleVis](http://cran.r-project.org/web/packages/googleVis/vignettes/Using_Roles_via_googleVis.html)
 * [Using Trendlines with googleVis](http://cran.r-project.org/web/packages/googleVis/vignettes/Using_Trendlines_with_googleVis.html)
 * [Markdown example with knitr and googleVis](http://cran.r-project.org/web/packages/googleVis/vignettes/Using_googleVis_with_knitr.html)
-* [My blog posts](http://lamages.blogspot.co.uk/search/label/googleVis)
+* [My googleVis blog posts](http://lamages.blogspot.co.uk/search/label/googleVis)
+
 
 
 How I created this presentation with RStudio
@@ -1863,104 +1852,22 @@ options(gvis.plot.tag="chart")
 <pre><code>{r scatterchart, results="asis"}
 plot(gvisScatterChart(women))
 </code></pre>
-* Note, Flash charts are only displayed when hosted on a web server, or the local 
-  directory has been added as a [trusted folder in the Adobe settings](http://www.adobe.com/support/documentation/en/flashplayer/help/settings_manager04.html)
 
-Summary and Outlook
+
+Summary 
 ========================================================
-* The Google Chart Tools have developed into a powerful API
-  * Data stays local, commercial use fine, see [Terms of Service](https://developers.google.com/chart/terms) for more details
-* googleVis provides an interface to the Google Chart Tools API
-  * Function's arguments and parameters follow the Google API
-  * Move of googleVis code base to GitHub should encrouage further collaboration
-* Alternative R packages are in development for interactive charts, e.g.
-  * [rCharts](http://ramnathv.github.io/rCharts/)
-  * [ggvis](http://ggvis.rstudio.com)
-  * [Acinonyx aka iPlots eXtreme](http://rforge.net/Acinonyx/index.html)
-
-
+* googleVis provides an interface to the Google Chart Tools 
+  * Arguments and parameters follow the Google API
+  * Note, Flash charts are only displayed when hosted on a web server, or the local 
+  directory has been added as a [trusted folder in the Adobe settings](http://www.adobe.com/support/documentation/en/flashplayer/help/settings_manager04.html)
+* Alternative R packages are in development for interactive charts, 
+  e.g. [rCharts](http://ramnathv.github.io/rCharts/), [ggvis](http://ggvis.rstudio.com)
+  
 The End. Questions? 
 ========================================================
 
-
-Thanks
-========================================================
-
-* Google, who make the visualisation API available
-* All the guys behind www.gapminder.org and Hans Rosling for telling
-    everyone that data is not boring 
-* Sebastian Perez Saaibi for his inspiring talk on 'Generator
-    Tool for Google Motion Charts' at the R/RMETRICS conference 2010
-* Henrik Bengtsson for providing the 'R.rsp: R Server Pages'
-    package and his reviews and comments
-* Duncan Temple Lang for providing the 'RJSONIO' package
-* Deepayan Sarkar for showing us in the lattice package how to deal
-    with lists of options  
-* Paul Cleary for a bug report on the handling of months:
-    Google date objects expect the months Jan.- Dec. as 0 - 11 and
-    not 1 - 12.
-* Ben Bolker for comments on plot.gvis and the usage of temporary
-    files  
-
-
-
-Thanks 
-========================================================
-
-* John Verzani for pointing out how to use the R http help server
-* Cornelius Puschmann and Jeffrey Breen for highlighting a
-    dependency issue with RJONSIO version 0.7-1
-* Manoj Ananthapadmanabhan and Anand Ramalingam for providing
-    ideas and code to animate a Google Geo Map
-* Rahul Premraj for pointing out a rounding issue with Google Maps 
-* Mike Silberbauer for an example showing how to shade the
-    areas in annotated time line charts
-* Tony Breyal for providing instructions on changing the Flash
-    security settings to display Flash charts locally 
-* Alexander Holcroft for reporting a bug in gvisMotionChart
-    when displaying data with special characters in column names
-* Pat Burns for pointing out typos in the vignette
-
-
-Thanks
-========================================================
-
-* Jason Pickering for providing a patch to allow for quarterly 
-    and weekly time dimensions to be displayed with gvisMotionChart
-* Oliver Jay and Wai Tung Ho for reporting an issue with one-row 
-    data sets
-* Erik Bülow for pointing out how to load the Google API via a
-    secure connection
-* Sebastian Kranz for comments to enhance the argument list for
-    gvisMotionChart to make it more user friendly 
-* Sebastian Kranz and Wei Luo for providing ideas and code to
-    improve the transformation of R data frames into JSON code
-* Sebastian Kranz for reporting a bug in version 0.3.0
-* Leonardo Trabuco for helping to clarify the usage of the
-    argument state in the help file of gvisMotionChart
-* Mark Melling for reporting an issue with jsDisplayChart and
-    providing a solution
-
-
-Thanks
-========================================================
-
-* Joe Cheng for code contribution to make googleVis work with shiny
-* John Maindonald for reporting that the WorldBank demo didn't 
-    download all data, but only the first 12000 records.
-* Sebastian Campbell for reporting a typo in the Andrew and Stock
-    data set and pointing out that the core charts, such as line
-  charts accept also date variables for the x-axis. 
-* John Maindonald for providing a simplified version of the
-    WorldBank demo using the WDI package.
-* John Muschelli for suggesting to add 'hovervar' as an additional
-    argument to gvisGeoChart.
-* Jacqueline Buros for providing code to include formats parameter 
-    to gvisTable()
-* JJ Allaire for pointing out how to use the viewer pane in RStudio
-  o Oliver Gjoneski and Ashton Trey Belew for patches on roles and tooltips
-* [Ramnath Vaidyanathan](https://github.com/ramnathv) for slidify.
-
+**Using the Google Visualisation API with R**, 
+  [The R Journal, 3(2):40-44, December 2011](http://journal.r-project.org/archive/2011-2/RJournal_2011-2_Gesmann+de~Castillo.pdf) and googleVis [package vignette](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf)
 
 Session Info
 ========================================================

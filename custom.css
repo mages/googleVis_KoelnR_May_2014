@@ -2,23 +2,25 @@
     background: white;
 }
 .section .reveal h1{
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
+  font-weight:bold;
   padding-top:0.5em;
   width:90%;
-  border:0.2em solid black;   
+  border:0.2em solid white;   
 }
 
 .section .reveal p {
-  margin-top: 5em; 
+  margin-top: 2em; 
   color: white;
-  width:89%;
-  border:1em solid steelblue; 
-  background-color: steelblue;
+  width:85%;
+  font-size: 1.3em;
+  border:1em solid black; 
+  background-color: black;
 }
     
 .reveal p, table {
-    margin-top: 1em; 
+    margin-top: 2em; 
     font-size: 0.8em; 
 }
     
@@ -30,7 +32,7 @@
    background-color: black;
    color: white;
    padding-top:0.75em;
-   width:89%;
+   width:95%;
    border:0.2em solid black;
    top: 0%;
    left: 0%;
@@ -40,7 +42,12 @@
 .reveal pre, blockquote {
    padding-left: 0mm;
    margin-left: 0mm;
-   padding-right: 0mm;
-   margin-right: 0mm;
+   
+   padding-right: 17mm;
+   margin-right: 10mm;
+   
+   font-size: 0.35em; 
+   background-color: #F8F8F8;
+   
 }
 
