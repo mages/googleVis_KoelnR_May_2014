@@ -1,0 +1,440 @@
+googleVis overview and recent developments
+========================================================
+author: Markus Gesmann
+date: KoelnR, 23 May 2014
+font-family: 'Helvetica'
+transition: linear
+css: custom.css
+width: 1440
+height: 900
+
+Agenda
+========================================================
+incremental: false
+- A brief introduction to googleVis
+- Recent developments
+- How I created this presentation with RStudio
+- Summary and outlook
+
+
+```{r setOptions, echo=FALSE, message=FALSE}
+library(googleVis)
+options(gvis.plot.tag="chart")
+library(xtable)
+options(xtable.type = 'html')
+```
+
+What is googleVis?
+========================================================
+
+- Inspired by [Hans Rosling's talk](http://www.youtube.com/embed/hVimVzgtD6w) 
+  we wanted to use interactive data visualisation tools to foster the 
+  dialogue between data analysts and others
+- The software behind Hans' talk was bought by Google and 
+  integrated as motion charts into their Visualisation API
+- Hence, we created [googleVis](http://gihub.com/mages/googleVis) 
+  an R package and interface to the 
+  [Google Chart Tools API](https://developers.google.com/chart/)
+  - First version published in 2010
+  
+Introduction to Google Chart Tools
+========================================================
+
+* [Google Chart Tools](https://developers.google.com/chart/) 
+  provide a way to visualize data on web sites
+* The API makes it easy to create interactive charts
+* It uses JavaScript and DataTable / JSON as input
+* Output is either HTML5/SVG or Flash
+* Browser with internet connection required to display chart
+* Please read the Google [Terms of Service](https://developers.google.com/terms/) before you start
+
+Structure of Google Charts
+========================================================
+
+The chart code has five generic parts:
+
+1. References to Google's AJAX and Visualisation API
+2. Data to visualize as a DataTable
+3. Instance call to create the chart
+4. Method call to draw the chart including options
+5. HTML &lt;div&gt; element to add the chart to the page
+
+Overview of googleVis
+========================================================
+
+* [googleVis](http://github.com/mages/googleVis) is a package for [R](http://www.r-poject.org/) and provides an interface between R and the [Google Chart Tools](https://developers.google.com/chart/)
+
+* The functions of the package allow users to visualize data with the Google Chart Tools without uploading their data to Google
+
+* The output of googleVis functions is html code that contains the data and references to JavaScript functions hosted by Google
+
+* To view the output a browser with an internet connection is required, the actual chart is rendered in the browser; some charts require Flash
+
+* See also: **Using the Google Visualisation API with R**, 
+  [The R Journal, 3(2):40-44, December 2011](http://journal.r-project.org/archive/2011-2/RJournal_2011-2_Gesmann+de~Castillo.pdf) and googleVis [package vignette](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf)
+
+
+googleVis version 0.5.2 provides interfaces to 
+========================================================
+
+* Flash based
+  * Motion Charts, Annotated Time Lines, Geo Maps
+* HMTL5/SVG based
+  * Maps, Geo Charts and Intensity Maps,
+  * Tables, Gauges, Tree Maps, Timelines,
+  * Line-, Bar-, Column-, Area- and Combo Charts,
+  * Scatter-, Bubble-, Candlestick-, Pie- and Org Charts,
+  * Annotation-, Calendar-, Histogram and Sankey Charts
+* Support for roles and trendlines
+* Support for [Shiny](http://shiny.rstudio.com/) via [renderGvis](http://lamages.blogspot.co.uk/2013/02/first-steps-of-using-googlevis-on-shiny.html)
+
+Run ```demo(googleVis)``` to see examples of all charts and read the [vignette](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf) for more details.
+
+Motion chart example
+========================================================
+
+```{r motionchartcode, results='asis', tidy=FALSE}
+plot(gvisMotionChart(Fruits, "Fruit", "Year",
+                     options=list(width=600, height=400)))
+```
+
+
+The googleVis concept
+========================================================
+
+* Charts: *'gvis' + ChartType*
+* For a motion chart we have
+
+```{r eval=FALSE, tidy=FALSE}
+M <- gvisMotionChart(data, idvar='id', timevar='date', 
+                     options=list(), chartid)
+```
+
+* Output of googleVis is a list of list
+
+* Display the chart by simply plotting the output: ```plot(M)```
+* Plot will generate a temporary html-file and open it in a new browser window 
+* Specific parts can be extracted, e.g. 
+  * the chart: ```M$html$chart``` or 
+  * data: ```M$html$chart["jsData"]```
+
+
+gvis-Chart structure
+========================================================
+
+List structure:
+
+<img height=350 src="https://dl.dropbox.com/u/7586336/googleVisExamples/gvisObject.png" alt="gvis object structure" />
+
+
+Example: Scatter chart
+========================================================
+
+```{r results='asis', tidy=FALSE}
+df <- data.frame(year=1:11, x=1:11)
+plot(gvisScatterChart(df,options=list(width=600, height=400)))
+```
+
+
+Example: Line chart with options set
+========================================================
+
+```{r results='asis', tidy=FALSE}
+df <- data.frame(label=c("US", "GB", "BR"), val1=c(1,3,4), val2=c(23,12,32))
+Line <- gvisLineChart(df, xvar="label", yvar=c("val1","val2"),
+        options=list(title="Hello World", legend="bottom",
+                titleTextStyle="{color:'red', fontSize:18}",                         
+                vAxis="{gridlines:{color:'red', count:3}}",
+                hAxis="{title:'My Label', titleTextStyle:{color:'blue'}}",
+                series="[{color:'green', targetAxisIndex: 0}, 
+                         {color: 'blue',targetAxisIndex:1}]",
+                vAxes="[{title:'Value 1 (%)', format:'##,######%'}, 
+                                  {title:'Value 2 (\U00A3)'}]",                          
+                curveType="function", width=500, height=300                         
+                ))
+```
+Options in googleVis have to follow the Google Chart API options
+
+
+Line chart with options
+========================================================
+
+```{r results='asis'}
+plot(Line)
+```
+
+
+Example: Displaying geographical information
+========================================================
+
+Plot countries' S&P credit rating sourced from Wikipedia
+```{r tidy=FALSE}
+library(XML)
+url <- "http://en.wikipedia.org/wiki/List_of_countries_by_credit_rating"
+x <- readHTMLTable(readLines(url), which=3)
+levels(x$Rating) <- substring(levels(x$Rating), 4, 
+                            nchar(levels(x$Rating)))
+x$Ranking <- x$Rating
+levels(x$Ranking) <- nlevels(x$Rating):1
+x$Ranking <- as.character(x$Ranking)
+x$Rating <- paste(x$Country, x$Rating, sep=": ")
+G <- gvisGeoChart(x, "Country", "Ranking", hovervar="Rating",
+                options=list(gvis.editor="S&P",
+                             projection="kavrayskiy-vii",
+                             colorAxis="{colors:['#91BFDB', '#FC8D59']}"))
+```
+
+
+Chart countries' S&P credit rating
+========================================================
+
+```{r results='asis'}
+plot(G)
+```
+
+
+New developments since googleVis 0.5.0
+========================================================
+
+* New functions gvisSankey, gvisAnnotationChart, gvisHistogram,
+  gvisCalendar and gvisTimeline 
+  
+* New demos and vigenttes for trendlines and roles
+
+* New [vignettes](http://cran.r-project.org/web/packages/googleVis/index.html) 
+  written in R Markdown
+
+* Dynamic help pages with [roxygen2](http://cran.r-project.org/web/packages/roxygen2/index.html)
+
+* Moved code development from [Google Code](https://code.google.com/p/google-motion-charts-with-r/) with SVN to [GitHub](https://github.com/mages/googleVis) with git
+
+
+Add additional columns to define roles - NEW
+========================================================
+
+```{r results='asis', tidy=FALSE}
+df <- data.frame(year=1:11, x=1:11,
+                 x.scope=c(rep(TRUE, 8), rep(FALSE, 3)),
+                 y=11:1, y.html.tooltip=LETTERS[11:1],                 
+                 y.certainty=c(rep(TRUE, 5), rep(FALSE, 6)),
+                 y.emphasis=c(rep(FALSE, 4), rep(TRUE, 7)))
+plot(gvisScatterChart(df,options=list(lineWidth=2, width=600, height=400)))
+```
+
+
+Google Map - NEW individual markers
+========================================================
+
+```{r eval=FALSE, tidy=FALSE}
+df <- data.frame(Adress=c("EC3M 7HA", "東京都新宿区北新宿2-21-1"),
+                 Tip=c("Lloyd's", "Tokyo R User Group"))
+plot(gvisMap(df, "Adress", "Tip",
+              options=list(mapType='normal',
+                icons="{'default': {'normal': 'http://icons.iconarchive.com/icons/icons-land/vista-map-markers/48/Map-Marker-Ball-Azure-icon.png',
+                                               'selected': 'http://icons.iconarchive.com/icons/icons-land/vista-map-markers/48/Map-Marker-Ball-Right-Azure-icon.png'}
+                                  }", width=800, height=250)))
+```
+<iframe src="https://dl.dropboxusercontent.com/u/7586336/blogger/MapTokyoRUserGroup.html" width=900 height=400 frameborder=0>Loading</iframe>
+
+
+Timeline - NEW
+========================================================
+
+```{r results='asis', tidy=FALSE}
+dat <- data.frame(Room=c("Room 1","Room 2","Room 3"),
+                  Language=c("Japanese", "English", "German"),
+                  start=as.POSIXct(c("2014-04-17 14:00", 
+                                     "2014-04-17 15:00",
+                                     "2014-04-17 14:30")),
+                  end=as.POSIXct(c("2014-04-17 15:00", 
+                                   "2014-04-17 16:00",
+                                   "2014-04-17 15:30")))
+plot(gvisTimeline(data=dat, rowlabel="Room", barlabel="Language",
+                  start="start", end="end", options=list(width=1000, height=250)))
+```
+
+
+Sankey chart - NEW
+========================================================
+
+```{r results='asis', tidy=FALSE}
+dat <- data.frame(From=c(rep("A",3), rep("B", 3)), 
+                  To=c(rep(c("X", "Y", "Z"),2)),
+                  Weight=c(5,7,6,2,9,4))
+plot(gvisSankey(dat, from="From", to="To", weight="Weight",
+                options=list(height=250)))
+```
+
+
+
+Calendar chart - NEW
+========================================================
+
+```{r eval=FALSE, tidy=FALSE}
+plot(gvisCalendar(Cairo, datevar="Date",
+                  numvar="Temp",
+                  options=list(calendar="{ cellSize: 10 }"))
+```
+<iframe src="https://dl.dropboxusercontent.com/u/7586336/blogger/CalendarCario.html" width=800 height=600 frameborder=0>Loading</iframe>
+
+
+Annotation Chart - NEW
+========================================================
+
+```{r results='asis', tidy=FALSE, warning=FALSE}
+xtable(tail(Stock, 3))
+A <- gvisAnnotationChart(
+  Stock, datevar="Date",
+  numvar="Value", idvar="Device",
+  titlevar="Title", 
+  annotationvar="Annotation",
+  options=list(displayAnnotations=TRUE,
+               legendPosition='newRow',
+               fill=10, displayExactValues=TRUE,
+               colors="['#0000ff','#00ff00']",
+               width=600, height=300)
+  )
+```
+
+
+Annotation Chart - NEW
+========================================================
+
+```{r eval=FALSE, tidy=FALSE}
+plot(A, tag='chart')
+```
+<iframe src="https://dl.dropboxusercontent.com/u/7586336/blogger/AnnotationChart.html" frameborder="0" width="800" height="600">Loading</iframe>
+
+
+Further reading and examples
+========================================================
+
+* [Demonstartion of googleVis](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis_examples.html)
+* [Using the Google Chart Tools with R](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf)
+* [Using Roles via googleVis](http://cran.r-project.org/web/packages/googleVis/vignettes/Using_Roles_via_googleVis.html)
+* [Using Trendlines with googleVis](http://cran.r-project.org/web/packages/googleVis/vignettes/Using_Trendlines_with_googleVis.html)
+* [Markdown example with knitr and googleVis](http://cran.r-project.org/web/packages/googleVis/vignettes/Using_googleVis_with_knitr.html)
+* [My blog posts](http://lamages.blogspot.co.uk/search/label/googleVis)
+
+
+How I created this presentation with RStudio
+========================================================
+
+* Simply started a new presentation file in RStudio and wrote markdown
+* Customised the CSS file
+* Ensured googleVis output is included as html, e.g.
+<pre><code>{r setOptions, message=FALSE}
+library(googleVis)
+options(gvis.plot.tag="chart")
+</code></pre>
+* Used `results='asis'` to display googleVis `plot` statements
+<pre><code>{r scatterchart, results="asis"}
+plot(gvisScatterChart(women))
+</code></pre>
+* Note, Flash charts are only displayed when hosted on a web server, or the local 
+  directory has been added as a [trusted folder in the Adobe settings](http://www.adobe.com/support/documentation/en/flashplayer/help/settings_manager04.html)
+
+Summary and Outlook
+========================================================
+* The Google Chart Tools have developed into a powerful API
+  * Data stays local, commercial use fine, see [Terms of Service](https://developers.google.com/chart/terms) for more details
+* googleVis provides an interface to the Google Chart Tools API
+  * Function's arguments and parameters follow the Google API
+  * Move of googleVis code base to GitHub should encrouage further collaboration
+* Alternative R packages are in development for interactive charts, e.g.
+  * [rCharts](http://ramnathv.github.io/rCharts/)
+  * [ggvis](http://ggvis.rstudio.com)
+  * [Acinonyx aka iPlots eXtreme](http://rforge.net/Acinonyx/index.html)
+
+
+The End. Questions? 
+========================================================
+
+
+Thanks
+========================================================
+
+* Google, who make the visualisation API available
+* All the guys behind www.gapminder.org and Hans Rosling for telling
+    everyone that data is not boring 
+* Sebastian Perez Saaibi for his inspiring talk on 'Generator
+    Tool for Google Motion Charts' at the R/RMETRICS conference 2010
+* Henrik Bengtsson for providing the 'R.rsp: R Server Pages'
+    package and his reviews and comments
+* Duncan Temple Lang for providing the 'RJSONIO' package
+* Deepayan Sarkar for showing us in the lattice package how to deal
+    with lists of options  
+* Paul Cleary for a bug report on the handling of months:
+    Google date objects expect the months Jan.- Dec. as 0 - 11 and
+    not 1 - 12.
+* Ben Bolker for comments on plot.gvis and the usage of temporary
+    files  
+
+
+
+Thanks 
+========================================================
+
+* John Verzani for pointing out how to use the R http help server
+* Cornelius Puschmann and Jeffrey Breen for highlighting a
+    dependency issue with RJONSIO version 0.7-1
+* Manoj Ananthapadmanabhan and Anand Ramalingam for providing
+    ideas and code to animate a Google Geo Map
+* Rahul Premraj for pointing out a rounding issue with Google Maps 
+* Mike Silberbauer for an example showing how to shade the
+    areas in annotated time line charts
+* Tony Breyal for providing instructions on changing the Flash
+    security settings to display Flash charts locally 
+* Alexander Holcroft for reporting a bug in gvisMotionChart
+    when displaying data with special characters in column names
+* Pat Burns for pointing out typos in the vignette
+
+
+Thanks
+========================================================
+
+* Jason Pickering for providing a patch to allow for quarterly 
+    and weekly time dimensions to be displayed with gvisMotionChart
+* Oliver Jay and Wai Tung Ho for reporting an issue with one-row 
+    data sets
+* Erik Bülow for pointing out how to load the Google API via a
+    secure connection
+* Sebastian Kranz for comments to enhance the argument list for
+    gvisMotionChart to make it more user friendly 
+* Sebastian Kranz and Wei Luo for providing ideas and code to
+    improve the transformation of R data frames into JSON code
+* Sebastian Kranz for reporting a bug in version 0.3.0
+* Leonardo Trabuco for helping to clarify the usage of the
+    argument state in the help file of gvisMotionChart
+* Mark Melling for reporting an issue with jsDisplayChart and
+    providing a solution
+
+
+Thanks
+========================================================
+
+* Joe Cheng for code contribution to make googleVis work with shiny
+* John Maindonald for reporting that the WorldBank demo didn't 
+    download all data, but only the first 12000 records.
+* Sebastian Campbell for reporting a typo in the Andrew and Stock
+    data set and pointing out that the core charts, such as line
+  charts accept also date variables for the x-axis. 
+* John Maindonald for providing a simplified version of the
+    WorldBank demo using the WDI package.
+* John Muschelli for suggesting to add 'hovervar' as an additional
+    argument to gvisGeoChart.
+* Jacqueline Buros for providing code to include formats parameter 
+    to gvisTable()
+* JJ Allaire for pointing out how to use the viewer pane in RStudio
+  o Oliver Gjoneski and Ashton Trey Belew for patches on roles and tooltips
+* [Ramnath Vaidyanathan](https://github.com/ramnathv) for slidify.
+
+
+Session Info
+========================================================
+
+```{r sessionInfo3}
+sessionInfo()
+```
+
+
