@@ -15,8 +15,13 @@ incremental: false
 - How I created this presentation with RStudio
 - Summary 
 
-
 ```{r setOptions, echo=FALSE, message=FALSE}
+required.packages <- c("googleVis", "XML", "xtable")
+installed.pckgs <- installed.packages()[,"Package"]
+new.packages <- required.packages[!(required.packages %in% installed.pckgs)]
+if(length(new.packages)) 
+  install.packages(new.packages)
+
 library(googleVis)
 options(gvis.plot.tag="chart")
 library(xtable)
@@ -320,7 +325,6 @@ options(gvis.plot.tag="chart")
 plot(gvisScatterChart(women))
 </code></pre>
 
-
 Summary 
 ========================================================
 * googleVis provides an interface to the Google Chart Tools 
@@ -329,12 +333,15 @@ Summary
   directory has been added as a [trusted folder in the Adobe settings](http://www.adobe.com/support/documentation/en/flashplayer/help/settings_manager04.html)
 * Alternative R packages are in development for interactive charts, 
   e.g. [rCharts](http://ramnathv.github.io/rCharts/), [ggvis](http://ggvis.rstudio.com)
-  
+
 The End. Questions? 
 ========================================================
 
-**Using the Google Visualisation API with R**, 
+*Markus Gesmann and Diego de Castillo*. **Using the Google Visualisation API with R**, 
   [The R Journal, 3(2):40-44, December 2011](http://journal.r-project.org/archive/2011-2/RJournal_2011-2_Gesmann+de~Castillo.pdf) and googleVis [package vignette](http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf)
+
+R markdown code of this presentation is available on [GitHub](https://github.com/mages/googleVis_KoelnR_May_2014)
+
 
 Session Info
 ========================================================
@@ -342,5 +349,3 @@ Session Info
 ```{r sessionInfo3}
 sessionInfo()
 ```
-
-
